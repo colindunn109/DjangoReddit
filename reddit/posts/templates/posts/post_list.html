@@ -1,0 +1,36 @@
+{% extends "posts/post_base.html" %}
+{% block prepost %}
+  <div class="col-md-4">
+    {% if request.user.is_authenticated %}
+    <div class="card card-with-shadow">
+      <div class="content">
+        <h5 class='title'>Your Subreddits</h5>
+        <ul class='list-unstyled'>
+          {% for member_sub in get_user_subs %}
+            <li class = 'group li-with-bullet'> <a href="{url 'subs:single' slug=member_sub.sub.slug %}"></a> </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="card card-with-shadow">
+    <div class="content">
+      <h5 class='title'>All Subreddits</h5>
+      <ul class='list-unstyled'>
+        {% for other_sub in get_other_subs %}
+        <li class='group li-with-bullet'> <a href="{% url 'subs:single' slug=other_sub.slug %}"></a> </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block post_content %}
+  <div class="col-md-8">
+    {% for post in post_list %}
+      {% include "posts/_post.html" %}
+    {% endfor %}
+  </div>
+{% endblock %}

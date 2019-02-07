@@ -1,0 +1,26 @@
+{% extends "subreddits/sub_base.html" %}
+{% block presub %}
+  <h1>{{subreddit.name}}</h1>
+  <h2>Member Count: {{ subreddit.members.count }}</h2>
+
+  <div class="content">
+    {% if user in sub.members.all %}
+      <a href="{url 'subs:leave' slug=sub.slug}"class='btn btn-warning'>Unsubscribe</a>
+    {% else %}
+      <a href="{url 'subs'join' slug=sub.slug}"class='btn btn-primary'>Subscribe</a>
+    {% endif %}
+
+  </div>
+{% endblock %}
+
+{% block group_content%}
+  <div class="col-md-8">
+    {% if group.posts.count == 0 %}
+      <h2>No Posts yet :(</h2>
+    {% else %}
+      {% for post in sub.posts.all %}
+        {% include "posts/_post.html" %}
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

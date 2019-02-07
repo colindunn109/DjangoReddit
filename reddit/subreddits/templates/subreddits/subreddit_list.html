@@ -1,0 +1,45 @@
+{% extends "subreddits/sub_base.html" %}
+
+{% block presub %}
+  <div class="col-md-4">
+    <div class="content">
+      {% if user.is_authenticated %}
+        <h2>Welcome Back!
+          <a href="{% url 'posts:for_user' username=user.username %}">
+            @{{user.username}}
+          </a>
+        </h2>
+      {% endif %}
+      <h2>Subreddits</h2>
+      <p>Welcome to the subreddits page</p>
+    </div>
+    {% if user.is_authenticated %}
+      <a href="{% url 'subs:create' %}"class='btn btn-md btn-fill btn-primary'>Create New Subreddit!</a>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block sub_content %}
+  <div class="col-md-8">
+    <div class="list-group">
+      {% for subreddit in object_list %}
+        <a href="{% url 'subs:single' slug=subreddit.slug}">
+          <h3>{{subreddit.name}}</h3>
+          <div class="container-fluid">
+            {{subreddit.description_html|safe}}
+            <div class="row">
+              <div class="col-md-4">
+                <span class='badge'>{{subreddit.members.count}}</span>
+                member{{subreddit.members.count|pluralize}}
+              </div>
+              <div class="col-md-4">
+                <span class='badge'>{{subreddit.posts.count}}</span>
+                post{{subreddit.posts.count|pluralize}}
+              </div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
